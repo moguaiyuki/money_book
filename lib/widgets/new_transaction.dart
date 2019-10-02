@@ -11,7 +11,6 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
 
   @override
@@ -56,5 +55,7 @@ class _NewTransactionState extends State<NewTransaction> {
       title,
       amount,
     );
+
+    Navigator.pop(context);
   }
 }
