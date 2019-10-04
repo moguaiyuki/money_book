@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function transactionHandler;
@@ -10,8 +11,9 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime _selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,12 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              controller: titleController,
+              decoration: InputDecoration(labelText: 'タイトル'),
+              controller: _titleController,
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              controller: amountController,
+              decoration: InputDecoration(labelText: '金額'),
+              controller: _amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitData(),
             ),
@@ -36,11 +38,15 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: <Widget>[
-                  Text('No Data Chosen'),
+                  Expanded(
+                    child: Text(_selectedDate == null
+                        ? '日付が選択されていません'
+                        : '選択された日付: ${DateFormat('y年M月d日').format(_selectedDate)}'),
+                  ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
                     child: Text(
-                      'Choose Date',
+                      '日付を選択する',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     onPressed: _presentDatePicker,
@@ -50,7 +56,7 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             RaisedButton(
               color: Theme.of(context).primaryColor,
-              child: Text('Add Transaction'),
+              child: Text('登録'),
               textColor: Theme.of(context).textTheme.button.color,
               onPressed: _submitData,
             ),
@@ -61,16 +67,17 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _submitData() {
-    final title = titleController.text;
-    final amount = double.parse(amountController.text);
+    final title = _titleController.text;
+    final amount = double.parse(_amountController.text);
 
-    if (title.isEmpty || amount <= 0) {
+    if (title.isEmpty || amount <= 0 || _selectedDate == null) {
       return;
     }
 
     widget.transactionHandler(
       title,
       amount,
+      _selectedDate
     );
 
     Navigator.pop(context);
@@ -82,6 +89,13 @@ class _NewTransactionState extends State<NewTransaction> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2019),
       lastDate: DateTime.now(),
-    );
+    ).then((date) {
+      if (date == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = date;
+      });
+    });
   }
 }
