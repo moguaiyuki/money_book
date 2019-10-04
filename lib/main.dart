@@ -67,6 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  List<Transaction> get sortedTransactions {
+    _userTransactions.sort((a, b) => a.date.compareTo(b.date));
+    return _userTransactions.reversed.toList();
+  }
+
   void _addNewTransaction(String title, double amount, DateTime date) {
     final newTransaction = Transaction(
       title: title,
@@ -116,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransaction),
-            TransactionList(_userTransactions, _deleteTransaction),
+            TransactionList(sortedTransactions, _deleteTransaction),
           ],
         ),
       ),
