@@ -92,8 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(Theme.of(context).textTheme.button.color);
-    print("ほげえええええ");
     return Scaffold(
       appBar: AppBar(
         title: Text('Money Book'),
@@ -106,7 +104,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransaction),

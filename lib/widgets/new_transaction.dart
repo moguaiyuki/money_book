@@ -13,7 +13,7 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,7 @@ class _NewTransactionState extends State<NewTransaction> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: Text(_selectedDate == null
-                        ? '日付が選択されていません'
-                        : '選択された日付: ${DateFormat('y年M月d日').format(_selectedDate)}'),
+                    child: Text('選択された日付: ${DateFormat('y年M月d日').format(_selectedDate)}'),
                   ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
@@ -96,6 +94,7 @@ class _NewTransactionState extends State<NewTransaction> {
       setState(() {
         _selectedDate = date;
       });
+      _submitData();
     });
   }
 }
