@@ -13,23 +13,27 @@ class TransactionList extends StatelessWidget {
     return Container(
       height: 450,
       child: transactions.isEmpty
-          ? Column(
-              children: <Widget>[
-                Text(
-                  'まだ記録がありません',
-                  style: Theme.of(context).textTheme.title,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/no-content.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+          ? LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  children: <Widget>[
+                    Text(
+                      'まだ記録がありません',
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: constraints.maxHeight * 0.6,
+                      child: Image.asset(
+                        'assets/images/no-content.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                );
+              },
             )
           : ListView.builder(
               itemBuilder: (context, index) {
@@ -79,7 +83,8 @@ class TransactionList extends StatelessWidget {
                             Icons.delete,
                             color: Theme.of(context).errorColor,
                           ),
-                          onPressed: () => deleteTransaction(transactions[index].id),
+                          onPressed: () =>
+                              deleteTransaction(transactions[index].id),
                         ),
                       )
                     ],
