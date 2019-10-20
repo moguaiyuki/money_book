@@ -17,48 +17,57 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'タイトル'),
-              controller: _titleController,
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: '金額'),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(_selectedDate == null ? '日付を選択してください' : '選択された日付: ${DateFormat('y年M月d日').format(_selectedDate)}'),
-                  ),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      '日付を選択する',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: _presentDatePicker,
-                  ),
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'タイトル'),
+                controller: _titleController,
               ),
-            ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              child: Text('登録'),
-              textColor: Theme.of(context).textTheme.button.color,
-              onPressed: _submitData,
-            ),
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: '金額'),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(_selectedDate == null
+                          ? '日付を選択してください'
+                          : '選択された日付: ${DateFormat('y年M月d日').format(_selectedDate)}'),
+                    ),
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        '日付を選択する',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: _presentDatePicker,
+                    ),
+                  ],
+                ),
+              ),
+              RaisedButton(
+                color: Theme.of(context).primaryColor,
+                child: Text('登録'),
+                textColor: Theme.of(context).textTheme.button.color,
+                onPressed: _submitData,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -72,11 +81,7 @@ class _NewTransactionState extends State<NewTransaction> {
       return;
     }
 
-    widget.transactionHandler(
-      title,
-      amount,
-      _selectedDate
-    );
+    widget.transactionHandler(title, amount, _selectedDate);
 
     Navigator.pop(context);
   }

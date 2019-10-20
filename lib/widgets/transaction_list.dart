@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
@@ -78,14 +80,22 @@ class TransactionList extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.all(10),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Theme.of(context).errorColor,
-                          ),
-                          onPressed: () =>
-                              deleteTransaction(transactions[index].id),
-                        ),
+                        child: MediaQuery.of(context).size.width > 460
+                            ? FlatButton.icon(
+                                textColor: Theme.of(context).errorColor,
+                                label: Text('削除'),
+                                icon: Icon(Icons.delete),
+                                onPressed: () =>
+                                    deleteTransaction(transactions[index].id),
+                              )
+                            : IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Theme.of(context).errorColor,
+                                ),
+                                onPressed: () =>
+                                    deleteTransaction(transactions[index].id),
+                              ),
                       )
                     ],
                   ),
